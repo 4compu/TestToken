@@ -46,7 +46,7 @@ contract('TestToken', (accounts) => {
     assert.equal(balance0.toString() , totalSupply.toString());
   });
 
-  it('should add liquidity to uniswap pool | 100 SPHYNX and 1 ETH', async function() {
+  it('should add liquidity to uniswap pool | 100 TestToken and 1 ETH', async function() {
     // tokenA and tokenB to add to liquidity
     const tokenA = utils.convertToBN(web3, 1, 3)
     const tokenB = utils.convertToBN(web3, 1, 18)
@@ -63,17 +63,17 @@ contract('TestToken', (accounts) => {
 
     // Balance checking
     beforeAfter(ethBefore, await web3.eth.getBalance(accounts[0]), "ETH", 18)
-    beforeAfter(sphynxBefore, await TESTTOKEN.balanceOf(accounts[0]), "SPHYNX", 3)
+    beforeAfter(sphynxBefore, await TESTTOKEN.balanceOf(accounts[0]), "TestToken", 3)
 
     // And check token balances of pair
     const pair = await TESTTOKEN.uniswapV2Pair()
     const pairTokenA = await TESTTOKEN.balanceOf(pair)
     const pairTokenB = await WETH.balanceOf(pair)
-    console.log("Pair balance: " + (pairTokenA / (10 ** 3)) + " SPHYNX    " + pairTokenB / 1e18 + " ETH")
+    console.log("Pair balance: " + (pairTokenA / (10 ** 3)) + " TestToken    " + pairTokenB / 1e18 + " ETH")
     assert(1, 1)
   });
 
-  it('Buy tokens for 3 accounts from pair', async function() {
+  it('Buy tokens from several accounts', async function() {
     const amount = utils.convertToBN(web3, 1, 18)
     var i = 1;
     await UNISWAPV2.swapExactETHForTokens(0, [await UNISWAPV2.WETH(), TESTTOKEN.address], accounts[i], Date.now()+15 , {
@@ -83,7 +83,7 @@ contract('TestToken', (accounts) => {
     const pair = await TESTTOKEN.uniswapV2Pair()
     const pairTokenA = await TESTTOKEN.balanceOf(pair)
     const pairTokenB = await WETH.balanceOf(pair)
-    console.log("Pair balance: " + (pairTokenA / (10 ** 3)) + " SPHYNX    " + pairTokenB / 1e18 + " ETH")
+    console.log("Pair balance: " + (pairTokenA / (10 ** 3)) + " TestToken    " + pairTokenB / 1e18 + " ETH")
 
     i = 2;
     await UNISWAPV2.swapExactETHForTokens(0, [await UNISWAPV2.WETH(), TESTTOKEN.address], accounts[i], Date.now()+15 , {
